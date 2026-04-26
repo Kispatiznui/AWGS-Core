@@ -1,21 +1,21 @@
 import json
 import time
 
-from core.nlp_engine import NLPEngine
-from core.ontology_engine import OntologyEngine
-from core.relational_engine import RelationalEngine
-from core.rule_engine import RuleEngine
-from core.world_engine import WorldEngine
-from core.anticipatory_engine import AnticipatoryEngine
-from core.state_manager import StateManager
-from memory.world_memory import WorldMemory
+from src.core.nlp_engine import NLPEngine
+from src.core.ontology_engine import OntologyEngine
+from src.core.relational_engine import RelationalEngine
+from src.core.rule_engine import RuleEngine
+from src.core.world_engine import WorldEngine
+from src.core.anticipatory_engine import AnticipatoryEngine
+from src.core.state_manager import StateManager
+from src.memory.world_memory import WorldMemory
 
-from visualization.graph_visualizer import GraphVisualizer
-from persistence.save_load import SaveLoad
-from simulation.replay_engine import ReplayEngine
-from simulation.branching_engine import BranchingEngine
+from src.visualization.graph_visualizer import GraphVisualizer
+from src.persistence.save_load import SaveLoad
+from src.simulation.replay_engine import ReplayEngine
+from src.simulation.branching_engine import BranchingEngine
 
-from narrative.narrator_engine import NarratorEngine
+from src.narrative.narrator_engine import NarratorEngine
 
 
 # ---------------------------
