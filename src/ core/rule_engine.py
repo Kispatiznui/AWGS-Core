@@ -1,16 +1,13 @@
-from models.rule import Rule
-
 class RuleEngine:
 
-    def generate_rules(self, processes, relations):
+    def generate(self, relations):
 
         rules = []
 
-        for p in processes:
-            if p.name == "resource_depletion_process":
-                rules.append(Rule(
-                    condition="water_level == low",
-                    effect="increase_survival_pressure"
-                ))
+        for r in relations:
+            rules.append({
+                "if": f"{r['from']}_changes",
+                "then": f"affect_{r['to']}"
+            })
 
         return rules
