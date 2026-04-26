@@ -47,59 +47,23 @@ Output:
 
 }
 
-Technologies: LLM models, semantic extraction, text normalization.
+Technologies: Chat GPT LLM models, semantic extraction, text normalization.
 
 2. Process Ontology Engine
 
 Converts concepts into dynamic processes.
 
-{
-"processes": [
 
-{
-"name": "survival_process",
-"actors": ["human"],
-"environment": "savanna",
-"state_variables": ["resource_availability"]
-
-}
-]
-}
 3. Relational Engine
 
 Defines relationships between system elements.
 
-Relationship types:
 
-dependency
-competition
-adaptation
-cooperation
-{
-"relations": [
-{
-"from": "human",
-"to": "resource_system",
-"type": "dependency"
-
-
-}
-]
-}
 4. Rule Engine
 
 Generates dynamic system rules.
 
-{
-"rules": [
 
-{
-"if": "resource_low",
-"then": "increase_survival_pressure"
-
-}
-]
-}
 5. World Simulation Engine
 
 Executes the evolution of the system over time:
@@ -110,45 +74,12 @@ State(t) → processes + rules → State(t+1)
 
 Generates predictions of possible futures.
 
-{ 
-"scenarios": [ 
-{ 
-"name": "migration_event", 
-"probability": 0.65 
-} 
-]
-}
-SystemFlow
 
-Input → NLP → Ontology → Relations → Rules → Simulation → Prediction → Feedback
-
-Project Structure
-
-AWGS-Core/
-│
-├── src/
-│ ├── core/
-│ │ ├── nlp_engine.py
-│ │ ├── ontology_engine.py
-│ │ ├── relational_engine.py
-│ │ ├── rule_engine.py
-│ │ ├── world_engine.py
-│ │ ├── anticipatory_engine.py
-│ │
-│ ├── models/
-│ ├── simulation/
-│ ├── utils/
-│ ├── api/
-│ └── main.py
-│
-├── examples/
-├── tests/
-├── docs/
-├── config/
-└── README.md
 
 Installation
-git clone https://github.com/yourname/awgs-core.git
+
+
+git clone https://github.com/Kispatiznui/AWGS-Core.git
 cd awgs-core
 pip install -r requirements.txt
 How To Run (MVP)
