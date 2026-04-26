@@ -1,16 +1,25 @@
+import os
+import json
 import openai
 
 class NLPEngine:
-    def __init__(self, api_key: str):
-        openai.api_key = api_key
 
-    def extract_concepts(self, text: str):
+    def __init__(self, config_path="config/llm_config.json"):
+
+        with open(config_path) as f:
+            config = json.load(f)
+
+        self.model = config["model"]
+        openai.api_key = os.getenv("OPENAI_API_KEY")
+
+    def extract(self, text):
+
         response = openai.ChatCompletion.create(
-            model="gpt-4o-mini",
+            model=self.model,
             messages=[
                 {
                     "role": "system",
-                    "content": "Extract key semantic concepts as a JSON list."
+                    "content": "Extract key concepts as a JSON list."
                 },
                 {
                     "role": "user",
