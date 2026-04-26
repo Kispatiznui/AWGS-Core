@@ -1,0 +1,7 @@
+openai
+fastapi
+uvicorn
+pydantic
+networkx
+numpy
+jsonschema
