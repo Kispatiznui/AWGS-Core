@@ -36,16 +36,6 @@ Modules
 
 Converts text into structured concepts.
 
-Input example:
-
-“A human in a savanna facing drought”
-
-Output:
-
-{
-"concepts": ["human", "savanna", "drought"]
-
-}
 
 Technologies: Chat GPT LLM models, semantic extraction, text normalization.
 
@@ -77,6 +67,13 @@ Generates predictions of possible futures.
 
 
 Installation
+Environment Setup
+
+Before running the project, you must configure your environment variables.
+
+Create a .env file in the root directory and add your API key:
+
+OPENAI_API_KEY=your_api_key_here
 
 
 git clone https://github.com/Kispatiznui/AWGS-Core.git
@@ -146,7 +143,8 @@ License
 MIT License
 
 Author
-
+Luis Felipe Martinez
+GPT
 Research project exploring:
 
 Generative simulation systems
