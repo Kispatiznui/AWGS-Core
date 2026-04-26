@@ -1,73 +1,56 @@
-# 🧠 AWGS-Core
-### Adaptive World Generative System
+AWGS-Core
 
-> A process-based ontology-driven anticipatory simulation framework that generates dynamic worlds from natural language inputs using AI-assisted semantic extraction, relational modeling, and evolutionary rule systems.
+Adaptive World Generative System
 
----
+AWGS-Core es un framework de simulación basado en procesos que genera mundos dinámicos a partir de entradas en lenguaje natural mediante extracción semántica asistida por modelos de IA, modelado relacional y sistemas de reglas evolutivas.
 
-# 🚀 Overview
+Este proyecto fue desarrollado como un experimento de investigación con apoyo de herramientas de inteligencia artificial (incluyendo asistencia de modelos tipo ChatGPT) para acelerar la exploración de arquitectura, ideas y estructuración del sistema.
 
-AWGS-Core is a research-driven simulation engine that transforms natural language descriptions into evolving virtual worlds.
+Overview
 
-Instead of modeling static entities, AWGS models:
+AWGS-Core transforma descripciones en lenguaje natural en mundos simulados en evolución.
 
-- **Processes (not objects)**
-- **Dynamic rules (not fixed logic)**
-- **Evolving state spaces**
-- **Anticipatory future simulations**
+En lugar de modelar entidades estáticas, el sistema trabaja con:
 
----
+Procesos en lugar de objetos
+Reglas dinámicas en lugar de lógica fija
+Espacios de estado en evolución
+Simulación anticipatoria de futuros posibles
+Core Principle
 
-# 🧠 Core Principle
+La realidad puede modelarse mejor como un sistema de procesos interactuando entre sí, en lugar de entidades aisladas.
 
-> Reality is better modeled as a system of interacting processes rather than static entities.
-
----
-
-# ⚙️ System Architecture
-
+System Architecture
 
 Natural Language Input
-↓
-LLM NLP Engine
-↓
-Process Ontology Engine
-↓
-Relational Engine
-↓
-Rule Generation Engine
-↓
-World Simulation Engine
-↓
-Anticipatory Engine
-↓
-Feedback Loop (Evolution)
+→ NLP Engine
+→ Process Ontology Engine
+→ Relational Engine
+→ Rule Generation Engine
+→ World Simulation Engine
+→ Anticipatory Engine
+→ Feedback Loop (Evolución del sistema)
 
+Modules
+1. NLP Engine (asistido por IA)
 
----
+Convierte texto en conceptos estructurados.
 
-# 🧩 Modules
+Ejemplo de entrada:
+“Un humano en una sabana enfrentando sequía”
 
----
+Salida:
 
-## 1. 🗣️ NLP Engine (AI-based)
-
-### Input:
-```text
-"A human in a savanna facing drought"
-Output:
 {
   "concepts": ["human", "savanna", "drought"]
 }
-Tech:
-OpenAI API / local LLM
-semantic extraction
-normalization
-2. 🧬 Process Ontology Engine
 
-Transforms concepts into processes.
+Tecnologías: modelos LLM, extracción semántica, normalización de texto.
 
-Example:
+2. Process Ontology Engine
+
+Convierte conceptos en procesos dinámicos.
+
 {
   "processes": [
     {
@@ -78,14 +61,16 @@ Example:
     }
   ]
 }
-3. 🔗 Relational Engine
+3. Relational Engine
 
-Defines interactions:
+Define relaciones entre elementos del sistema.
 
-dependency
-competition
-adaptation
-cooperation
+Tipos de relación:
+
+dependencia
+competencia
+adaptación
+cooperación
 {
   "relations": [
     {
@@ -95,9 +80,9 @@ cooperation
     }
   ]
 }
-4. 📜 Rule Engine
+4. Rule Engine
 
-Generates dynamic rules:
+Genera reglas dinámicas del sistema.
 
 {
   "rules": [
@@ -107,14 +92,15 @@ Generates dynamic rules:
     }
   ]
 }
-5. 🌍 World Simulation Engine
+5. World Simulation Engine
 
-Executes state transitions:
+Ejecuta la evolución del sistema en el tiempo:
 
-State(t) → Rules + Processes → State(t+1)
-6. 🔮 Anticipatory Engine
+State(t) → procesos + reglas → State(t+1)
 
-Predicts future states:
+6. Anticipatory Engine
+
+Genera predicciones de posibles futuros.
 
 {
   "scenarios": [
@@ -124,41 +110,48 @@ Predicts future states:
     }
   ]
 }
-🔄 System Flow
+System Flow
+
 Input → NLP → Ontology → Relations → Rules → Simulation → Prediction → Feedback
-📦 Project Structure
+
+Project Structure
+
 AWGS-Core/
 │
 ├── src/
-│   ├── core/
-│   │   ├── nlp_engine.py
-│   │   ├── ontology_engine.py
-│   │   ├── relational_engine.py
-│   │   ├── rule_engine.py
-│   │   ├── world_engine.py
-│   │   ├── anticipatory_engine.py
-│   │
-│   ├── models/
-│   ├── simulation/
-│   ├── utils/
-│   ├── api/
-│   └── main.py
+│ ├── core/
+│ │ ├── nlp_engine.py
+│ │ ├── ontology_engine.py
+│ │ ├── relational_engine.py
+│ │ ├── rule_engine.py
+│ │ ├── world_engine.py
+│ │ ├── anticipatory_engine.py
+│ │
+│ ├── models/
+│ ├── simulation/
+│ ├── utils/
+│ ├── api/
+│ └── main.py
 │
 ├── examples/
 ├── tests/
 ├── docs/
 ├── config/
 └── README.md
-⚙️ Installation
+
+Installation
 git clone https://github.com/yourname/awgs-core.git
 cd awgs-core
 pip install -r requirements.txt
-▶️ How to Run (MVP)
+How to Run (MVP)
 python src/main.py
-🧪 Example Execution
+Example Execution
+
 Input:
-"human in a savanna with long-term drought"
+“human in a savanna with long-term drought”
+
 Output:
+
 {
   "world_state": {
     "processes": ["survival", "resource_search"],
@@ -168,53 +161,55 @@ Output:
     "migration_likelihood": 0.72
   }
 }
-🧠 Key Features
-AI-driven semantic extraction
-Process-based ontology generation
-Dynamic rule synthesis
-Emergent system simulation
-Anticipatory modeling of future states
-Self-evolving world structure
-🧪 Tech Stack
+Key Features
+Extracción semántica asistida por IA
+Ontología basada en procesos
+Generación dinámica de reglas
+Simulación emergente de sistemas
+Modelado anticipatorio de futuros
+Estructura evolutiva del mundo
+Tech Stack
 Python 3.10+
-OpenAI / LLM API
-NetworkX (relations)
-Pydantic (models)
+LLM APIs (OpenAI o equivalentes)
+NetworkX (relaciones)
+Pydantic (modelado)
 JSON state engine
-📊 Research Context
+Research Context
 
-AWGS is based on:
+Este proyecto se basa en ideas de:
 
 Dynamic Systems Theory
 Process Ontology (Rescher)
-Anticipatory Systems Theory (Rosen, Poli)
-Knowledge Graph Systems
+Anticipatory Systems (Rosen, Poli)
+Knowledge Graphs
 Agent-Based Modeling
-⚠️ Limitations
-Early-stage research prototype
-High dependency on LLM semantic accuracy
-State-space explosion in complex worlds
-Requires optimization for scalability
-🚀 Roadmap
- NLP Engine (LLM integration)
- Ontology system design
- Relational model
- Full simulation engine
- Web-based visualization
- Real-time world editor
- Multi-agent evolution system
-🤝 Contribution
+Limitations
+Prototipo de investigación en etapa temprana
+Dependencia de la calidad semántica del LLM
+Posible explosión del espacio de estados en simulaciones complejas
+Requiere optimización para escalabilidad
+Roadmap
+Integración completa del NLP
+Sistema de ontología estable
+Motor de reglas avanzado
+Motor de simulación completo
+Visualización web del mundo
+Editor interactivo de mundos
+Sistema multi-agente evolutivo
+Contribution
 
-Pull requests are welcome. This is an experimental research framework.
+Este es un framework experimental de investigación. Se aceptan contribuciones mediante pull requests.
 
-📜 License
+License
 
 MIT License
 
-👤 Author
+Author
 
-Research project exploring:
+Proyecto de investigación explorando:
 
-generative simulation systems
-ontology-driven AI
-anticipatory modeling
+Sistemas de simulación generativa
+Ontologías computacionales
+Modelado anticipatorio
+
+Desarrollado con apoyo de herramientas de IA para estructuración, diseño conceptual y asistencia en implementación.
