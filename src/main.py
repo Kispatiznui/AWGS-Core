@@ -15,6 +15,8 @@ from persistence.save_load import SaveLoad
 from simulation.replay_engine import ReplayEngine
 from simulation.branching_engine import BranchingEngine
 
+from narrative.narrator_engine import NarratorEngine
+
 
 # ---------------------------
 # UTILIDADES
@@ -30,9 +32,9 @@ def clean_json(output):
 
 
 def print_section(title):
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print(f"🧠 {title}")
-    print("="*60)
+    print("=" * 60)
 
 
 def load_config():
@@ -77,6 +79,7 @@ def run():
     saver = SaveLoad()
     replay = ReplayEngine()
     branch_engine = BranchingEngine()
+    narrator = NarratorEngine()
 
     # ---------------------------
     # NLP
@@ -126,7 +129,7 @@ def run():
     print(json.dumps(world_state, indent=2))
 
     # ---------------------------
-    # SIMULACIÓN MULTI-STEP
+    # SIMULACIÓN
     # ---------------------------
     print_section("Simulation Start")
 
@@ -137,9 +140,16 @@ def run():
         result = state_manager.step(world_state)
         world_state = result["state"]
 
+        # 📖 NARRADOR
+        try:
+            narrative = narrator.narrate(world_state)
+            print("\n📖 Narrative:")
+            print(narrative)
+        except Exception as e:
+            print("⚠️ Narration error:", e)
+
         if debug:
-            print("Time:", world_state["time"])
-            print("Processes snapshot:")
+            print("\nState Snapshot:")
             print(json.dumps(world_state["processes"][:2], indent=2))
 
         time.sleep(0.5)
@@ -150,17 +160,27 @@ def run():
     print_section("Final Prediction")
     print(json.dumps(result["prediction"], indent=2))
 
+    # 📖 NARRACIÓN FINAL
+    print_section("Final Narrative")
+
+    try:
+        final_story = narrator.narrate(world_state, result["prediction"])
+        print("📖", final_story)
+    except Exception as e:
+        print("⚠️ Narration error:", e)
+
     # ---------------------------
     # VISUALIZACIÓN
     # ---------------------------
-    print_section("World Visualization (Graph)")
+    print_section("World Visualization")
+
     try:
         visualizer.visualize(world_state)
     except Exception as e:
         print("⚠️ Visualization error:", e)
 
     # ---------------------------
-    # GUARDAR MUNDO
+    # GUARDADO
     # ---------------------------
     print_section("Saving World")
 
@@ -183,17 +203,17 @@ def run():
     # ---------------------------
     # MULTI-BRANCH
     # ---------------------------
-    print_section("Parallel Futures (Branches)")
+    print_section("Parallel Futures")
 
     try:
         branches = branch_engine.generate_branches(world_state, variations=3)
 
         for i, b in enumerate(branches):
-            print(f"\n Branch {i}")
+            print(f"\n🌳 Branch {i}")
             print(json.dumps(b["processes"][:1], indent=2))
 
     except Exception as e:
-        print(" Branching error:", e)
+        print("⚠️ Branching error:", e)
 
     # ---------------------------
     # MEMORIA
