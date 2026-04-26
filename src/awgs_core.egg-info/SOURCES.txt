@@ -1,0 +1,52 @@
+LICENSE
+README.md
+pyproject.toml
+src/ models/__init__.py
+src/ models/entity.py
+src/ models/process.py
+src/ models/relation.py
+src/ models/rule.py
+src/ models/world_state.py
+src/api/__init__.py
+src/api/app.py
+src/api/routes.py
+src/awgs_core.egg-info/PKG-INFO
+src/awgs_core.egg-info/SOURCES.txt
+src/awgs_core.egg-info/dependency_links.txt
+src/awgs_core.egg-info/top_level.txt
+src/core/__init__.py
+src/core/anticipatory_engine.py
+src/core/diff_engine.py
+src/core/emergence_engine.py
+src/core/nlp_engine.py
+src/core/ontology_engine.py
+src/core/relational_engine.py
+src/core/rule_engine.py
+src/core/state_manager.py
+src/core/world_engine.py
+src/memory/__init__.py
+src/memory/state_store.py
+src/memory/world_memory.py
+src/narrative/__init__.py
+src/narrative/narrator_engine.py
+src/persistence/__init__.py
+src/persistence/save_load.py
+src/semantic/__init__.py
+src/semantic/concept_cluster.py
+src/semantic/semantic_resolver.py
+src/simulation/__init__.py
+src/simulation/branching_engine.py
+src/simulation/replay_engine.py
+src/simulation/simulator.py
+src/utils/__init__.py
+src/utils/logger.py
+src/utils/serializer.py
+src/utils/validator.py
+src/visualization/__init__.py
+src/visualization/graph_visualizer.py
+tests/test_nlp.py
+tests/test_ontology.py
+tests/test_pipeline.py
+tests/test_relations.py
+tests/test_rules.py
+tests/test_simulation.py

@@ -5,9 +5,11 @@ class RuleEngine:
         rules = []
 
         for r in relations:
+
             rules.append({
-                "if": f"{r['from']}_changes",
-                "then": f"affect_{r['to']}"
+                "if": f"exists_{r['from']}",
+                "then": f"affect_{r['from']}",
+                "type": r["type"]
             })
 
         return rules

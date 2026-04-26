@@ -1,3 +1,6 @@
+from src.models.world_state import WorldState
+
+
 class StateManager:
 
     def __init__(self, world_engine, anticipation_engine, memory):
@@ -6,17 +9,28 @@ class StateManager:
         self.memory = memory
         self.time = 0
 
+    # -------------------------------------------------
+    # STEP PRINCIPAL (COMPATIBLE)
+    # -------------------------------------------------
     def step(self, world_state):
+
+        # ---------------------------
+        # 0. NORMALIZAR INPUT
+        # ---------------------------
+        if isinstance(world_state, WorldState):
+            state = world_state
+        else:
+            state = WorldState.from_dict(world_state)
 
         # ---------------------------
         # 1. AVANZAR TIEMPO GLOBAL
         # ---------------------------
         self.time += 1
-        world_state["time"] = self.time
+        state.time = self.time
 
-        processes = world_state.get("processes", [])
-        relations = world_state.get("relations", [])
-        rules = world_state.get("rules", [])
+        processes = state.processes
+        relations = state.relations
+        rules = state.rules
 
         # ---------------------------
         # 2. EVOLUCIÓN DEL SISTEMA
@@ -27,7 +41,6 @@ class StateManager:
                 intensity = p.get("intensity", 1)
                 p["intensity"] = intensity + 0.1 * max(1, len(relations))
 
-        # pequeñas dinámicas en reglas (si existen)
         for r in rules:
             if isinstance(r, dict):
                 r["stability"] = r.get("stability", 1.0) - 0.01
@@ -56,7 +69,6 @@ class StateManager:
         relation_count = len(relations)
         rule_count = len(rules)
 
-        # densidad del sistema (simple pero útil)
         system_density = active_processes + relation_count + rule_count
 
         # ---------------------------
@@ -70,7 +82,6 @@ class StateManager:
         else:
             trend = "equilibrio dinámico del sistema"
 
-        # inestabilidad simple
         instability = abs(active_processes - relation_count)
 
         prediction = {
@@ -85,10 +96,10 @@ class StateManager:
         }
 
         # ---------------------------
-        # 6. SALIDA FINAL
+        # 6. SALIDA FINAL (COMPATIBLE MAIN)
         # ---------------------------
 
         return {
-            "state": world_state,
+            "state": state.to_dict(),   # 🔥 clave para no romper main
             "prediction": prediction
         }

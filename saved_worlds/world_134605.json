@@ -1,0 +1,55 @@
+{
+  "processes": [
+    {
+      "name": {
+        "name": "hombre",
+        "type": "agent"
+      },
+      "type": "process",
+      "state": "active",
+      "intensity": 1.2
+    },
+    {
+      "name": {
+        "name": "comiendo",
+        "type": "object"
+      },
+      "type": "process",
+      "state": "active",
+      "intensity": 1.2
+    }
+  ],
+  "relations": [
+    {
+      "from": {
+        "name": "hombre",
+        "type": "agent"
+      },
+      "type": "process",
+      "relation": "exists"
+    },
+    {
+      "from": {
+        "name": "comiendo",
+        "type": "object"
+      },
+      "type": "process",
+      "relation": "exists"
+    }
+  ],
+  "rules": [
+    {
+      "if": "exists_{'name': 'hombre', 'type': 'agent'}",
+      "then": "affect_{'name': 'hombre', 'type': 'agent'}",
+      "type": "process",
+      "stability": 0.99
+    },
+    {
+      "if": "exists_{'name': 'comiendo', 'type': 'object'}",
+      "then": "affect_{'name': 'comiendo', 'type': 'object'}",
+      "type": "process",
+      "stability": 0.99
+    }
+  ],
+  "time": 1
+}

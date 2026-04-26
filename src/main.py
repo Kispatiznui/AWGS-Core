@@ -9,6 +9,7 @@ from src.core.world_engine import WorldEngine
 from src.core.anticipatory_engine import AnticipatoryEngine
 from src.core.state_manager import StateManager
 from src.memory.world_memory import WorldMemory
+from core.state_manager import StateManager
 
 from src.visualization.graph_visualizer import GraphVisualizer
 from src.persistence.save_load import SaveLoad
@@ -23,13 +24,27 @@ from src.narrative.narrator_engine import NarratorEngine
 # ---------------------------
 
 def clean_json(output):
-    try:
-        return json.loads(output)
-    except:
-        start = output.find("[")
-        end = output.rfind("]")
-        return json.loads(output[start:end+1])
 
+    # 🧠 si ya es dict, no hacer nada
+    if isinstance(output, dict):
+        return output
+
+    # 🧠 si es string, intentar parsear
+    if isinstance(output, str):
+        try:
+            return json.loads(output)
+        except:
+            start = output.find("[")
+            end = output.rfind("]")
+            if start != -1 and end != -1:
+                return json.loads(output[start:end+1])
+
+    # fallback final seguro
+    return {
+        "entities": [],
+        "actions": [],
+        "context": "fallback empty parse"
+    }
 
 def print_section(title):
     print("\n" + "=" * 60)

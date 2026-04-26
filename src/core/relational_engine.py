@@ -5,12 +5,11 @@ class RelationalEngine:
         relations = []
 
         for p in processes:
-            for q in processes:
-                if p != q:
-                    relations.append({
-                        "from": p["process"],
-                        "to": q["process"],
-                        "type": "interaction"
-                    })
+
+            relations.append({
+                "from": p["name"],
+                "type": p["type"],
+                "relation": "exists"
+            })
 
         return relations
