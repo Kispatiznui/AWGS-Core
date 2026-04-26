@@ -1,12 +1,9 @@
 from pydantic import BaseModel
-from typing import List
-from .process import Process
-from .relation import Relation
-from .rule import Rule
+from typing import List, Dict, Any
+
 
 class WorldState(BaseModel):
-    time: int
-    processes: List[Process]
-    relations: List[Relation]
-    rules: List[Rule]
-    history: List[dict]
+    time: int = 0
+    processes: List[Dict[str, Any]] = []
+    relations: List[Dict[str, Any]] = []
+    rules: List[Dict[str, Any]] = []

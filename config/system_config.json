@@ -1,4 +1,5 @@
 {
-  "simulation_steps": 1,
-  "debug": true
+  "simulation_steps": 10,
+  "debug": true,
+  "python.terminal.useEnvFile": true
 }

@@ -1,0 +1,87 @@
+{
+  "processes": [
+    {
+      "name": {
+        "name": "hombre",
+        "type": "agent"
+      },
+      "type": "process",
+      "state": {
+        "status": "active",
+        "variation": 0
+      },
+      "intensity": 1.3
+    },
+    {
+      "name": {
+        "name": "tomando",
+        "type": "object"
+      },
+      "type": "process",
+      "state": {
+        "status": "active",
+        "variation": 0
+      },
+      "intensity": 1.3
+    },
+    {
+      "name": {
+        "name": "agua",
+        "type": "object"
+      },
+      "type": "process",
+      "state": {
+        "status": "active",
+        "variation": 0
+      },
+      "intensity": 1.3
+    }
+  ],
+  "relations": [
+    {
+      "from": {
+        "name": "hombre",
+        "type": "agent"
+      },
+      "type": "process",
+      "relation": "exists"
+    },
+    {
+      "from": {
+        "name": "tomando",
+        "type": "object"
+      },
+      "type": "process",
+      "relation": "exists"
+    },
+    {
+      "from": {
+        "name": "agua",
+        "type": "object"
+      },
+      "type": "process",
+      "relation": "exists"
+    }
+  ],
+  "rules": [
+    {
+      "if": "exists_{'name': 'hombre', 'type': 'agent'}",
+      "then": "affect_{'name': 'hombre', 'type': 'agent'}",
+      "type": "process",
+      "stability": 0.99
+    },
+    {
+      "if": "exists_{'name': 'tomando', 'type': 'object'}",
+      "then": "affect_{'name': 'tomando', 'type': 'object'}",
+      "type": "process",
+      "stability": 0.99
+    },
+    {
+      "if": "exists_{'name': 'agua', 'type': 'object'}",
+      "then": "affect_{'name': 'agua', 'type': 'object'}",
+      "type": "process",
+      "stability": 0.99
+    }
+  ],
+  "time": 1
+}

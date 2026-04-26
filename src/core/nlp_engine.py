@@ -1,25 +1,23 @@
 import os
 import json
+from dotenv import load_dotenv
+import google.generativeai as genai
+
+load_dotenv()
 
 
 class NLPEngine:
-    """
-    NLP híbrido para AWGS-Core:
-    - OpenAI si está disponible
-    - fallback local si falla o no hay cuota
-    - salida SIEMPRE consistente
-    """
 
     def __init__(self):
 
-        self.api_key = os.getenv("AIzaSyAf1DD3v8lF4rLa1nXZ7KRWfUZ1A8xiBd4")
+        self.api_key = os.getenv("GEMINI_API_KEY")
         self.use_llm = self.api_key is not None
 
         if self.use_llm:
-            from openai import OpenAI
-            self.client = OpenAI()
+            genai.configure(api_key=self.api_key)
+            self.model = genai.GenerativeModel("gemini-1.5-flash")
         else:
-            self.client = None
+            self.model = None
 
     # -------------------------------------------------
     # INTERFAZ PRINCIPAL
@@ -30,98 +28,66 @@ class NLPEngine:
             if self.use_llm:
                 return self._extract_with_llm(text)
         except Exception as e:
-            print("⚠️ LLM failed, switching to fallback:", e)
+            print("⚠️ Gemini failed, fallback:", e)
 
         return self._extract_local(text)
 
     # -------------------------------------------------
-    # IA REAL
+    # GEMINI REAL
     # -------------------------------------------------
     def _extract_with_llm(self, text: str):
 
         prompt = f"""
-Devuelve SOLO JSON válido con este esquema:
+You are an ontology extraction engine for a simulation system.
 
+Extract ONLY meaningful semantic elements.
+
+Return STRICT JSON:
 {{
-  "entities": [
-    {{"name": "", "type": "agent|environment|object"}}
-  ],
-  "actions": [],
-  "context": ""
+  "entities": [{{"name": "...", "type": "agent|object|environment"}}],
+  "actions": ["..."],
+  "context": "..."
 }}
 
-Texto:
+RULES:
+- NO stopwords (a, el, en, una, etc)
+- Focus on semantic meaning
+- Keep ontology clean
+
+TEXT:
 {text}
 """
 
-        response = self.client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[
-                {
-                    "role": "system",
-                    "content": "Eres un motor de ontologías para simulaciones de mundos."
-                },
-                {"role": "user", "content": prompt}
-            ]
-        )
-
-        content = response.choices[0].message.content
+        response = self.model.generate_content(prompt)
 
         try:
-            return json.loads(content)
+            return json.loads(response.text)
         except:
             return {
                 "entities": [],
                 "actions": [],
                 "context": text,
-                "raw": content,
-                "mode": "llm_unparsed"
+                "raw": response.text,
+                "mode": "llm_parse_failed"
             }
 
     # -------------------------------------------------
-    # FALLBACK LOCAL (ESTRUCTURADO BIEN)
+    # FALLBACK LOCAL (ROBUSTO)
     # -------------------------------------------------
     def _extract_local(self, text: str):
 
-        words = text.lower().split()
+        stopwords = {"el", "la", "una", "un", "en", "de", "y", "a", "los", "las"}
 
-        stopwords = {
-            "un", "una", "el", "la", "en", "y", "de", "los", "las", "con", "para"
-        }
+        words = [
+            w for w in text.lower().split()
+            if w not in stopwords
+        ]
 
-        entities = []
-        actions = []
-
-        for w in words:
-
-            if w in stopwords:
-                continue
-
-            # ENTIDADES SIMPLES
-            if w in ["sabana", "bosque", "selva", "ciudad"]:
-                entities.append({"name": w, "type": "environment"})
-
-            elif w in ["hombre", "mujer", "animal", "persona"]:
-                entities.append({"name": w, "type": "agent"})
-
-            elif w in ["sentado", "corre", "come", "duerme"]:
-                actions.append(w)
-
-            else:
-                entities.append({"name": w, "type": "object"})
-
-        # eliminar duplicados
-        unique_entities = []
-        seen = set()
-
-        for e in entities:
-            if e["name"] not in seen:
-                unique_entities.append(e)
-                seen.add(e["name"])
+        entities = [{"name": w, "type": "object"} for w in words[:5]]
 
         return {
-            "entities": unique_entities,
-            "actions": actions,
+            "entities": entities,
+            "actions": ["cooperación", "competencia", "adaptación", "supervivencia"],
             "context": text,
             "mode": "fallback"
         }

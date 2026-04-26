@@ -1,50 +1,19 @@
-import json
 import time
+import matplotlib.pyplot as plt
 
 from src.core.nlp_engine import NLPEngine
 from src.core.ontology_engine import OntologyEngine
 from src.core.relational_engine import RelationalEngine
 from src.core.rule_engine import RuleEngine
 from src.core.world_engine import WorldEngine
-from src.core.anticipatory_engine import AnticipatoryEngine
 from src.core.state_manager import StateManager
 from src.memory.world_memory import WorldMemory
-from core.state_manager import StateManager
-
-from src.visualization.graph_visualizer import GraphVisualizer
-from src.persistence.save_load import SaveLoad
-from src.simulation.replay_engine import ReplayEngine
-from src.simulation.branching_engine import BranchingEngine
-
 from src.narrative.narrator_engine import NarratorEngine
 
 
-# ---------------------------
-# UTILIDADES
-# ---------------------------
-
-def clean_json(output):
-
-    # 🧠 si ya es dict, no hacer nada
-    if isinstance(output, dict):
-        return output
-
-    # 🧠 si es string, intentar parsear
-    if isinstance(output, str):
-        try:
-            return json.loads(output)
-        except:
-            start = output.find("[")
-            end = output.rfind("]")
-            if start != -1 and end != -1:
-                return json.loads(output[start:end+1])
-
-    # fallback final seguro
-    return {
-        "entities": [],
-        "actions": [],
-        "context": "fallback empty parse"
-    }
+# -------------------------------------------------
+# UTIL
+# -------------------------------------------------
 
 def print_section(title):
     print("\n" + "=" * 60)
@@ -52,87 +21,79 @@ def print_section(title):
     print("=" * 60)
 
 
-def load_config():
+def clean_json(output):
+    if isinstance(output, dict):
+        return output
+
     try:
-        with open("config/system_config.json") as f:
-            return json.load(f)
+        import json
+        return json.loads(output)
     except:
         return {
-            "simulation_steps": 3,
-            "debug": True
+            "entities": [],
+            "actions": [],
+            "context": str(output)
         }
 
 
-# ---------------------------
+# -------------------------------------------------
 # MAIN
-# ---------------------------
+# -------------------------------------------------
 
 def run():
-
-    config = load_config()
-    steps = config.get("simulation_steps", 3)
-    debug = config.get("debug", True)
 
     print_section("AWGS-Core Simulation Engine")
 
     text = input("Describe your world:\n> ")
 
-    # ---------------------------
-    # INICIALIZACIÓN
-    # ---------------------------
+    # -------------------------
+    # INIT SYSTEM
+    # -------------------------
     nlp = NLPEngine()
     ontology = OntologyEngine()
     relations = RelationalEngine()
     rules = RuleEngine()
     world = WorldEngine()
-    anticipation = AnticipatoryEngine()
     memory = WorldMemory()
-
-    state_manager = StateManager(world, anticipation, memory)
-
-    visualizer = GraphVisualizer()
-    saver = SaveLoad()
-    replay = ReplayEngine()
-    branch_engine = BranchingEngine()
     narrator = NarratorEngine()
 
-    # ---------------------------
+    state_manager = StateManager(world, None, memory)
+
+    # -------------------------
     # NLP
-    # ---------------------------
+    # -------------------------
     print_section("NLP Processing")
 
-    raw_concepts = nlp.extract(text)
-    concepts = clean_json(raw_concepts)
+    concepts = clean_json(nlp.extract(text))
+    print(concepts)
 
-    print("Concepts:", concepts)
-
-    # ---------------------------
+    # -------------------------
     # ONTOLOGY
-    # ---------------------------
-    print_section("Ontology Generation")
+    # -------------------------
+    print_section("Ontology")
 
     processes = ontology.build(concepts)
-    print(json.dumps(processes, indent=2))
+    print(processes)
 
-    # ---------------------------
+    # -------------------------
     # RELATIONS
-    # ---------------------------
+    # -------------------------
     print_section("Relations")
 
     rels = relations.connect(processes)
-    print(json.dumps(rels[:5], indent=2))
+    print(rels)
 
-    # ---------------------------
+    # -------------------------
     # RULES
-    # ---------------------------
+    # -------------------------
     print_section("Rules")
 
     rls = rules.generate(rels)
-    print(json.dumps(rls[:5], indent=2))
+    print(rls)
 
-    # ---------------------------
-    # ESTADO INICIAL
-    # ---------------------------
+    # -------------------------
+    # WORLD STATE
+    # -------------------------
     world_state = {
         "processes": processes,
         "relations": rels,
@@ -140,13 +101,12 @@ def run():
         "time": 0
     }
 
-    print_section("Initial World State")
-    print(json.dumps(world_state, indent=2))
-
-    # ---------------------------
-    # SIMULACIÓN
-    # ---------------------------
+    # -------------------------
+    # SIMULATION
+    # -------------------------
     print_section("Simulation Start")
+
+    steps = 10
 
     for step in range(steps):
 
@@ -155,94 +115,63 @@ def run():
         result = state_manager.step(world_state)
         world_state = result["state"]
 
-        # 📖 NARRADOR
-        try:
-            narrative = narrator.narrate(world_state)
-            print("\n📖 Narrative:")
-            print(narrative)
-        except Exception as e:
-            print("⚠️ Narration error:", e)
+        print("Time:", world_state["time"])
 
-        if debug:
-            print("\nState Snapshot:")
-            print(json.dumps(world_state["processes"][:2], indent=2))
+        time.sleep(0.2)
 
-        time.sleep(0.5)
-
-    # ---------------------------
-    # PREDICCIÓN FINAL
-    # ---------------------------
+    # -------------------------
+    # FINAL PREDICTION
+    # -------------------------
     print_section("Final Prediction")
-    print(json.dumps(result["prediction"], indent=2))
 
-    # 📖 NARRACIÓN FINAL
-    print_section("Final Narrative")
+    print(result["prediction"])
 
-    try:
-        final_story = narrator.narrate(world_state, result["prediction"])
-        print("📖", final_story)
-    except Exception as e:
-        print("⚠️ Narration error:", e)
+    # -------------------------
+    # NARRATOR (FORZADO A SALIR)
+    # -------------------------
+    print_section("Narrative Output")
 
-    # ---------------------------
-    # VISUALIZACIÓN
-    # ---------------------------
-    print_section("World Visualization")
+    story = narrator.generate(world_state)
 
-    try:
-        visualizer.visualize(world_state)
-    except Exception as e:
-        print("⚠️ Visualization error:", e)
+    # 🔥 FIX CRÍTICO: asegurar string
+    if isinstance(story, dict):
+        story = story.get("text") or str(story)
 
-    # ---------------------------
-    # GUARDADO
-    # ---------------------------
-    print_section("Saving World")
+    print(story)
 
-    try:
-        filepath = saver.save(world_state)
-        print(f"💾 Saved at: {filepath}")
-    except Exception as e:
-        print("⚠️ Save error:", e)
+    # -------------------------
+    # MEMORY + MATPLOTLIB
+    # -------------------------
+    print_section("Memory Visualization")
 
-    # ---------------------------
-    # REPLAY
-    # ---------------------------
-    print_section("Replay Simulation")
+    history = memory.history
 
-    try:
-        replay.replay(memory, delay=0.5)
-    except Exception as e:
-        print("⚠️ Replay error:", e)
+    if len(history) == 0:
+        print("No memory recorded")
+        return
 
-    # ---------------------------
-    # MULTI-BRANCH
-    # ---------------------------
-    print_section("Parallel Futures")
+    times = []
+    process_counts = []
 
-    try:
-        branches = branch_engine.generate_branches(world_state, variations=3)
+    for h in history:
+        times.append(h["time"])
+        process_counts.append(len(h["state"]["processes"]))
 
-        for i, b in enumerate(branches):
-            print(f"\n🌳 Branch {i}")
-            print(json.dumps(b["processes"][:1], indent=2))
+    plt.figure()
+    plt.plot(times, process_counts)
+    plt.title("Process Evolution Over Time")
+    plt.xlabel("Time")
+    plt.ylabel("Active Processes")
 
-    except Exception as e:
-        print("⚠️ Branching error:", e)
-
-    # ---------------------------
-    # MEMORIA
-    # ---------------------------
-    print_section("Memory Summary")
-
-    print(f"Stored states: {len(memory.history)}")
+    plt.tight_layout()
+    plt.show()
 
     print_section("Simulation Completed")
 
 
-# ---------------------------
-# ENTRYPOINT
-# ---------------------------
+# -------------------------------------------------
+# ENTRY
+# -------------------------------------------------
 
 if __name__ == "__main__":
     run()

@@ -1,0 +1,191 @@
+{
+  "processes": [
+    {
+      "name": {
+        "name": "hombre",
+        "type": "agent"
+      },
+      "type": "process",
+      "state": {
+        "status": "active",
+        "variation": 0
+      },
+      "intensity": 1.7000000000000002
+    },
+    {
+      "name": {
+        "name": "tomando",
+        "type": "object"
+      },
+      "type": "process",
+      "state": {
+        "status": "active",
+        "variation": 0
+      },
+      "intensity": 1.7000000000000002
+    },
+    {
+      "name": {
+        "name": "jugo",
+        "type": "object"
+      },
+      "type": "process",
+      "state": {
+        "status": "active",
+        "variation": 0
+      },
+      "intensity": 1.7000000000000002
+    },
+    {
+      "name": {
+        "name": "naranja",
+        "type": "object"
+      },
+      "type": "process",
+      "state": {
+        "status": "active",
+        "variation": 0
+      },
+      "intensity": 1.7000000000000002
+    },
+    {
+      "name": {
+        "name": "porque",
+        "type": "object"
+      },
+      "type": "process",
+      "state": {
+        "status": "active",
+        "variation": 0
+      },
+      "intensity": 1.7000000000000002
+    },
+    {
+      "name": {
+        "name": "tenia",
+        "type": "object"
+      },
+      "type": "process",
+      "state": {
+        "status": "active",
+        "variation": 0
+      },
+      "intensity": 1.7000000000000002
+    },
+    {
+      "name": {
+        "name": "sed",
+        "type": "object"
+      },
+      "type": "process",
+      "state": {
+        "status": "active",
+        "variation": 0
+      },
+      "intensity": 1.7000000000000002
+    }
+  ],
+  "relations": [
+    {
+      "from": {
+        "name": "hombre",
+        "type": "agent"
+      },
+      "type": "process",
+      "relation": "exists"
+    },
+    {
+      "from": {
+        "name": "tomando",
+        "type": "object"
+      },
+      "type": "process",
+      "relation": "exists"
+    },
+    {
+      "from": {
+        "name": "jugo",
+        "type": "object"
+      },
+      "type": "process",
+      "relation": "exists"
+    },
+    {
+      "from": {
+        "name": "naranja",
+        "type": "object"
+      },
+      "type": "process",
+      "relation": "exists"
+    },
+    {
+      "from": {
+        "name": "porque",
+        "type": "object"
+      },
+      "type": "process",
+      "relation": "exists"
+    },
+    {
+      "from": {
+        "name": "tenia",
+        "type": "object"
+      },
+      "type": "process",
+      "relation": "exists"
+    },
+    {
+      "from": {
+        "name": "sed",
+        "type": "object"
+      },
+      "type": "process",
+      "relation": "exists"
+    }
+  ],
+  "rules": [
+    {
+      "if": "exists_{'name': 'hombre', 'type': 'agent'}",
+      "then": "affect_{'name': 'hombre', 'type': 'agent'}",
+      "type": "process",
+      "stability": 0.8999999999999999
+    },
+    {
+      "if": "exists_{'name': 'tomando', 'type': 'object'}",
+      "then": "affect_{'name': 'tomando', 'type': 'object'}",
+      "type": "process",
+      "stability": 0.8999999999999999
+    },
+    {
+      "if": "exists_{'name': 'jugo', 'type': 'object'}",
+      "then": "affect_{'name': 'jugo', 'type': 'object'}",
+      "type": "process",
+      "stability": 0.8999999999999999
+    },
+    {
+      "if": "exists_{'name': 'naranja', 'type': 'object'}",
+      "then": "affect_{'name': 'naranja', 'type': 'object'}",
+      "type": "process",
+      "stability": 0.8999999999999999
+    },
+    {
+      "if": "exists_{'name': 'porque', 'type': 'object'}",
+      "then": "affect_{'name': 'porque', 'type': 'object'}",
+      "type": "process",
+      "stability": 0.8999999999999999
+    },
+    {
+      "if": "exists_{'name': 'tenia', 'type': 'object'}",
+      "then": "affect_{'name': 'tenia', 'type': 'object'}",
+      "type": "process",
+      "stability": 0.8999999999999999
+    },
+    {
+      "if": "exists_{'name': 'sed', 'type': 'object'}",
+      "then": "affect_{'name': 'sed', 'type': 'object'}",
+      "type": "process",
+      "stability": 0.8999999999999999
+    }
+  ],
+  "time": 10
+}
