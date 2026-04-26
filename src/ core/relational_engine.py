@@ -1,17 +1,16 @@
-from models.relation import Relation
-
 class RelationalEngine:
 
-    def build_relations(self, processes):
+    def connect(self, processes):
 
         relations = []
 
         for p in processes:
-            if p.name == "survival_process":
-                relations.append(Relation(
-                    source=p.name,
-                    target="resource_depletion_process",
-                    type="dependency"
-                ))
+            for q in processes:
+                if p != q:
+                    relations.append({
+                        "from": p["process"],
+                        "to": q["process"],
+                        "type": "interaction"
+                    })
 
         return relations
